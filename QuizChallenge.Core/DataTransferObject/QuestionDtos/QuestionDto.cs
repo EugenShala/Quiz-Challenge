@@ -1,0 +1,32 @@
+﻿using QuizChallenge.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace QuizChallenge.Core.DataTransferObject.QuestionDtos
+{
+    public class QuestionDto
+    {
+        public QuestionDto()
+        {
+            Answers = new List<Answer>();
+        }
+        public int Id { get; set; }
+        [Required]
+        public string Text { get; set; }
+        public int CorrectAnswerId { get; set; }
+
+
+        public IList<Answer> Answers { get; set; }
+
+
+
+        [Required]
+        public int QuizId { get; set; }
+        public virtual Quiz Quiz { get; set; }
+    }
+}

@@ -18,5 +18,25 @@ namespace QuizChallenge.Infrastructure.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<Quiz>().HasData(new Quiz
+            {
+                QuizId = 3,
+                Title = "Iphone",
+               
+            });
+            modelBuilder.Entity<Quiz>().HasData(new Quiz
+            {
+                QuizId = 4,
+                Title = "Samsung",
+            });
+
+        }
     }
 }

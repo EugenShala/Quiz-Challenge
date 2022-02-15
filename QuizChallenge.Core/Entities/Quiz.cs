@@ -14,7 +14,9 @@ namespace QuizChallenge.Core.Entities
             Questions = new List<Question>();
             Answers = new List<Answer>();  
         }
-        public int Id { get; set; }
+
+        [Key]
+        public int QuizId { get; set; }
         [Required]
         public string Title { get; set; }
 

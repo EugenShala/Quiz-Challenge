@@ -15,8 +15,7 @@ namespace QuizChallenge.Core.Entities.QuizDtos
             Questions = new List<Question>();
             Answers = new List<AnswerDto>();  
         }
-        public int Id { get; set; }
-        [Required]
+        public int QuizId { get; set; }
         public string Title { get; set; }
 
        public List<Question> Questions { get; set; }

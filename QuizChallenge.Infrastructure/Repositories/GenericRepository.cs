@@ -13,23 +13,23 @@ namespace QuizChallenge.Infrastructure.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ApplicationDbContext _dbContext;
-        internal DbSet<T> dbSet;
+     //   internal DbSet<T> dbSet;
 
         public GenericRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            this.dbSet = _dbContext.Set<T>();
+       //     this.dbSet = _dbContext.Set<T>();
         }
 
         public async Task<T> Find(int id)
         {
-            return await dbSet.FindAsync(id);
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
         public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null, bool isTracking = true)
 
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query = _dbContext.Set<T>();
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -58,7 +58,7 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task<T> FirstOrDefault(Expression<Func<T, bool>> filter = null, string includeProperties = null, bool isTracking = true)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<T> query = _dbContext.Set<T>();
             if (filter != null)
             {
                 query = query.Where(filter);
@@ -82,16 +82,19 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task Add(T entity)
         {
-           await dbSet.AddAsync(entity);
+            await _dbContext.AddAsync(entity);
+         //  await dbSet.AddAsync(entity);
         }
         public async Task Update(T entity)
         {
-            dbSet.Update(entity);
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            //dbSet.Update(entity);
             await Save();
         }
         public async Task Remove(T entity)
         {
-            dbSet.Remove(entity);
+            _dbContext.Remove(entity);
+           // dbSet.Remove(entity);
             await Save();
         }
 

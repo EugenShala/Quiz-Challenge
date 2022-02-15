@@ -7,15 +7,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChallengeDemo.Core.IRepository;
+using QuizChallenge.Core.Entities.QuizDtos;
+using AutoMapper;
 
 namespace QuizChallenge.Infrastructure.Repositories
 {
-    public class QuizRepository : GenericRepository<Quiz>, IQuizRepository
+    public class QuizRepository : IQuizRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public QuizRepository(ApplicationDbContext dbContext) : base (dbContext)
+        private readonly IMapper _mapper;
+        public QuizRepository(ApplicationDbContext dbContext, IMapper mapper) 
         {
             _dbContext = dbContext;
+            _mapper = mapper;
+        }
+
+        public async Task<QuizDto> CreateUpdateQuiz(QuizDto quizDto)
+        {
+            Quiz quiz = _mapper.Map<QuizDto, Quiz>(quizDto);
+            if (quiz.QuizId > 0)
+            {
+                _dbContext.Quizzes.Update(quiz);
+            }
+            else
+            {
+                _dbContext.Quizzes.Add(quiz);
+            }
+            await _dbContext.SaveChangesAsync();
+            return _mapper.Map<Quiz, QuizDto>(quiz);
+        }
+
+        public async Task<bool> DeleteQuiz(int quizId)
+        {
+            try
+            {
+                Quiz quiz = await _dbContext.Quizzes.FirstOrDefaultAsync(u => u.QuizId == quizId);
+                if (quiz == null)
+                {
+                    return false;
+                }
+                _dbContext.Quizzes.Remove(quiz);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<QuizDto> GetQuizById(int quizId)
+        {
+            Quiz quiz = await _dbContext.Quizzes.Where(x => x.QuizId == quizId).FirstOrDefaultAsync();
+            return _mapper.Map<QuizDto>(quiz);
+        }
+
+        public async Task<IEnumerable<QuizDto>> GetQuizes()
+        {
+            List<Quiz> quizList = await _dbContext.Quizzes.ToListAsync();
+            return _mapper.Map<List<QuizDto>>(quizList);
         }
         //public async Task<bool> CreateQuiz(Quiz createQuiz)
         //{

@@ -23,10 +23,10 @@ namespace QuizChallenge.Core.Entities
         public virtual Question Question { get; set; }
 
 
-        public int? QuizId { get; set; }
-        [Required]
-        [ForeignKey("QuizId")]
-        public virtual Quiz Quiz { get; set; }
+        //public int? QuizId { get; set; }
+        //[Required]
+        //[ForeignKey("QuizId")]
+        //public virtual Quiz Quiz { get; set; }
 
     }
 }

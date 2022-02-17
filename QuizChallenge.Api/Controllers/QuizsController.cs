@@ -9,11 +9,11 @@ namespace QuizChallenge.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuizController : ControllerBase
+    public class QuizsController : ControllerBase
     {
         private readonly IQuizRepository _quiz;
         protected ResponseDto _response;
-        public QuizController(IQuizRepository quiz)
+        public QuizsController(IQuizRepository quiz)
         {
             _quiz = quiz;
             this._response = new ResponseDto();

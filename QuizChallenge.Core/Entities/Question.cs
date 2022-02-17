@@ -12,7 +12,7 @@ namespace QuizChallenge.Core.Entities
     {
         public Question()
         {
-            Answers = new List<Answer>();
+            Answers = new HashSet<Answer>();
         }
         public int Id { get; set; }
         [Required]
@@ -20,7 +20,7 @@ namespace QuizChallenge.Core.Entities
         public int CorrectAnswerId { get; set; }
 
 
-        public List<Answer> Answers { get; set; }
+        public ICollection<Answer> Answers { get; set; }
 
 
 

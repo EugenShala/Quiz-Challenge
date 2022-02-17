@@ -11,8 +11,8 @@ namespace QuizChallenge.Core.Entities
     {
         public Quiz()
         {
-            Questions = new List<Question>();
-            Answers = new List<Answer>();  
+            Questions = new HashSet<Question>();
+            //  Answers = new HashSet<Answer>();  
         }
 
         [Key]
@@ -21,7 +21,7 @@ namespace QuizChallenge.Core.Entities
         public string Title { get; set; }
 
        public ICollection<Question> Questions { get; set; }
-       public ICollection<Answer> Answers { get; set; }
+      // public ICollection<Answer> Answers { get; set; }
 
     }
 }

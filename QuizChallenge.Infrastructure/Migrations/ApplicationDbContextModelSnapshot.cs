@@ -33,10 +33,6 @@ namespace QuizChallenge.Infrastructure.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuizId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -44,8 +40,6 @@ namespace QuizChallenge.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizId");
 
                     b.ToTable("Answers");
                 });
@@ -113,15 +107,7 @@ namespace QuizChallenge.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuizChallenge.Core.Entities.Quiz", "Quiz")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Question");
-
-                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("QuizChallenge.Core.Entities.Question", b =>
@@ -142,8 +128,6 @@ namespace QuizChallenge.Infrastructure.Migrations
 
             modelBuilder.Entity("QuizChallenge.Core.Entities.Quiz", b =>
                 {
-                    b.Navigation("Answers");
-
                     b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618

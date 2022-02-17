@@ -12,13 +12,13 @@ namespace QuizChallenge.Infrastructure.Migrations
                 name: "Quizzes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    QuizId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Quizzes", x => x.Id);
+                    table.PrimaryKey("PK_Quizzes", x => x.QuizId);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,7 +38,7 @@ namespace QuizChallenge.Infrastructure.Migrations
                         name: "FK_Questions_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "Id",
+                        principalColumn: "QuizId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -49,8 +49,7 @@ namespace QuizChallenge.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: false)
+                    QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,23 +60,22 @@ namespace QuizChallenge.Infrastructure.Migrations
                         principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Answers_Quizzes_QuizId",
-                        column: x => x.QuizId,
-                        principalTable: "Quizzes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Quizzes",
+                columns: new[] { "QuizId", "Title" },
+                values: new object[] { 3, "Iphone" });
+
+            migrationBuilder.InsertData(
+                table: "Quizzes",
+                columns: new[] { "QuizId", "Title" },
+                values: new object[] { 4, "Samsung" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
                 table: "Answers",
                 column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuizId",
-                table: "Answers",
-                column: "QuizId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_QuizId",

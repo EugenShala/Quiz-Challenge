@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChallengeDemo.Core.IRepository
 {
-    public interface IQuestionRepository : IGenericRepository<Question>
+    public interface IQuestionRepository 
     {
         //Task<ICollection<Question>> GetQuestions();
         //Task<Question> GetQuestion (int questionId);

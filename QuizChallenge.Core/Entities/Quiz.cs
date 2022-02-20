@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Core.Entities
 {
-    public partial class Quiz
+    public class Quiz
     {
         public Quiz()
         {

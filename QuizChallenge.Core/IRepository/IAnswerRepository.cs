@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChallengeDemo.Core.IRepository
 {
-    public interface IAnswerRepository : IGenericRepository<Answer>
+    public interface IAnswerRepository 
     {
         //Task<ICollection<Answer>> GetAnswers();
         //Task<Answer> GetAnswer(int answerId);

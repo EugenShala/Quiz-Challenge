@@ -10,10 +10,10 @@ using ChallengeDemo.Core.IRepository;
 
 namespace QuizChallenge.Infrastructure.Repositories
 {
-    public class AnswerRepository : GenericRepository <Answer>, IAnswerRepository
+    public class AnswerRepository : IAnswerRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public AnswerRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public AnswerRepository(ApplicationDbContext dbContext) 
         {
            _dbContext = dbContext;
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Infrastructure.Data
 {
-    public partial class ApplicationDbContext : DbContext
+    public  class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -73,19 +73,8 @@ namespace QuizChallenge.Infrastructure.Data
                }
             });
 
-            //modelBuilder.Entity<Question>(entity =>
-            //{
-            //    entity.HasOne(q => q.Quiz)
-            //    .WithMany(qs => qs.Questions)
-            //    .HasForeignKey(d => d.QuizId)
-            //    .HasConstraintName("FK_Questions_ToTable");
-
-            //});
-
-             OnModelCreatingPartial(modelBuilder);
         }
 
-       partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
     }
 }

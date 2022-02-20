@@ -1,6 +1,7 @@
 using AutoMapper;
 using ChallengeDemo.Core.IRepository;
 using Microsoft.EntityFrameworkCore;
+using QuizChallenge.Core.IRepository;
 using QuizChallenge.Infrastructure.Data;
 using QuizChallenge.Infrastructure.Mapper;
 using QuizChallenge.Infrastructure.Repositories;

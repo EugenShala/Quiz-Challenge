@@ -12,7 +12,7 @@ using QuizChallenge.Infrastructure.Data;
 namespace QuizChallenge.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220217180534_addDataToDb")]
+    [Migration("20220220210456_addDataToDb")]
     partial class addDataToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,45 +58,60 @@ namespace QuizChallenge.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("QuizId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuizId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CorrectAnswerId = 1,
+                            Text = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CorrectAnswerId = 2,
+                            Text = "Work"
+                        });
                 });
 
             modelBuilder.Entity("QuizChallenge.Core.Entities.Quiz", b =>
                 {
-                    b.Property<int>("QuizId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("QuizId");
+                    b.HasKey("Id");
 
                     b.ToTable("Quizzes");
 
                     b.HasData(
                         new
                         {
-                            QuizId = 3,
+                            Id = 3,
                             Title = "Iphone"
                         },
                         new
                         {
-                            QuizId = 4,
+                            Id = 4,
                             Title = "Samsung"
                         });
                 });
@@ -117,8 +132,7 @@ namespace QuizChallenge.Infrastructure.Migrations
                     b.HasOne("QuizChallenge.Core.Entities.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK_Questions_ToTable");
 
                     b.Navigation("Quiz");
                 });

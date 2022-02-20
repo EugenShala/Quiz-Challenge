@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Core.Entities
 {
-    public class Quiz
+    public partial class Quiz
     {
         public Quiz()
         {
@@ -15,8 +15,8 @@ namespace QuizChallenge.Core.Entities
             //  Answers = new HashSet<Answer>();  
         }
 
-        [Key]
-        public int QuizId { get; set; }
+
+        public int Id { get; set; }
         [Required]
         public string Title { get; set; }
 

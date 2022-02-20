@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public partial class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -24,19 +24,69 @@ namespace QuizChallenge.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Quiz>(entity =>
+            {
+                entity.Property(e => e.Title).HasMaxLength(50);
 
-            modelBuilder.Entity<Quiz>().HasData(new Quiz
-            {
-                QuizId = 3,
-                Title = "Iphone",
-               
-            });
-            modelBuilder.Entity<Quiz>().HasData(new Quiz
-            {
-                QuizId = 4,
-                Title = "Samsung",
             });
 
+            modelBuilder.Entity<Question>(entity =>
+            {
+                entity.Property(e => e.CorrectAnswerId);
+
+                entity.Property(e => e.Text).HasMaxLength(50);
+
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.Questions)
+                    .HasForeignKey(d => d.QuizId)
+                    .HasConstraintName("FK_Questions_ToTable");
+            });
+
+
+            modelBuilder.Entity<Quiz>().HasData(new[]
+            {
+            new Quiz
+             {
+                Id = 3,
+                Title = "Iphone"
+             },
+            new Quiz
+            {
+                 Id = 4,
+                Title = "Samsung"
+            }
+           });
+             
+        modelBuilder.Entity<Question>().HasData(new[]
+            {
+               new Question
+               {
+                  Id = 1,
+                  Text = "System",
+                   CorrectAnswerId = 1
+               },
+               new Question
+               {
+                  Id = 2,
+                  Text = "Work",
+                   CorrectAnswerId = 2
+               }
+            });
+
+            //modelBuilder.Entity<Question>(entity =>
+            //{
+            //    entity.HasOne(q => q.Quiz)
+            //    .WithMany(qs => qs.Questions)
+            //    .HasForeignKey(d => d.QuizId)
+            //    .HasConstraintName("FK_Questions_ToTable");
+
+            //});
+
+             OnModelCreatingPartial(modelBuilder);
         }
+
+       partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
     }
 }
+

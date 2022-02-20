@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuizChallenge.Core.DataTransferObject;
 using QuizChallenge.Core.DataTransferObject.QuizDtos;
 using QuizChallenge.Core.Entities;
+using QuizChallenge.Core.IRepository;
 using QuizChallenge.Infrastructure.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,13 +15,15 @@ namespace QuizChallenge.Api.Controllers
     [ApiController]
     public class QuizController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
         private readonly IMapper  _mapper;
+        protected ResponseDto responseDto;
+        private readonly IQuizRepository _quizRepository;
 
-        public QuizController(ApplicationDbContext dbContext, IMapper mapper)
+        public QuizController(IMapper mapper, IQuizRepository quizRepository)
         {
-            _dbContext = dbContext;
             _mapper = mapper;
+            this.responseDto = new ResponseDto();
+            _quizRepository = quizRepository;   
         }
 
         #region Read Only Quiz
@@ -27,37 +31,66 @@ namespace QuizChallenge.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReadQuizDto>>> GetQuizs()
         {
-            var quizModel = await _dbContext.Quizzes.ToListAsync();
-            var quizDto = _mapper.Map<IEnumerable<ReadQuizDto>>(quizModel);
-            return Ok(quizDto);
+            try
+            {
+                var quizModel = await _quizRepository.GetAllQuiz();
+                var quizDto = _mapper.Map<IEnumerable<ReadQuizDto>>(quizModel);
+                responseDto.Result = quizDto;
+                return Ok(quizDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Success = false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+           
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ReadQuizDto>> GetQuizs(int id)
+        public async Task<ActionResult<QuizDetailsDto>> GetQuiz(int id)
         {
-            var quiz = await _dbContext.Quizzes.FindAsync(id);
-            if (quiz == null)
+            try
             {
-                return NotFound();
-            }
+                var quiz = await _quizRepository.GetQuizDetails(id);
 
-            var quizDto = _mapper.Map<ReadQuizDto>(quiz);
-            return quizDto;
+                if (quiz == null)
+                {
+                    return NotFound();
+                }
+
+                responseDto.Result = quiz;
+                return Ok(quiz);
+            }
+            
+            catch (Exception ex)
+            {
+                responseDto.Success=false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
         }
+
 
         #endregion
 
-        #region Create Quize
-      
-        [HttpPost]
+            #region Create Quize
+
+            [HttpPost]
         public async Task<ActionResult<CreateQuizDto>> PostQuiz(CreateQuizDto quizDto)
         {
-           var quiz = _mapper.Map<Quiz>(quizDto);
+            try
+            {
+                var quiz = _mapper.Map<Quiz>(quizDto);
+                await _quizRepository.AddQuiz(quiz);
+                responseDto.Result = quizDto;
 
-            await _dbContext.Quizzes.AddAsync(quiz);
-            await _dbContext.SaveChangesAsync();
-
-            return CreatedAtAction("GetQuizs", new { id = quiz.QuizId }, quiz);
+                return CreatedAtAction("GetQuizs", new { id = quiz.Id }, quiz);
+            } 
+            catch (Exception ex)
+            {
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+        
+            
         }
 
         #endregion
@@ -73,7 +106,7 @@ namespace QuizChallenge.Api.Controllers
             }
 
 
-            var quiz = await _dbContext.Quizzes.FindAsync(id);
+            var quiz = await _quizRepository.GetQuizById(id);
 
             if (quiz == null)
             {
@@ -81,11 +114,10 @@ namespace QuizChallenge.Api.Controllers
             }
 
              _mapper.Map(quizDto, quiz);
-            _dbContext.Entry(quiz).State = EntityState.Modified;
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+               await _quizRepository.UpdateQuiz(quiz);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -109,23 +141,29 @@ namespace QuizChallenge.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuiz(int id)
         {
-            var quiz = await _dbContext.Quizzes.FindAsync(id);
-            if (quiz == null)
+            try
             {
-                return NotFound();
+                var quiz = await _quizRepository.GetQuizById(id);
+                if (quiz == null)
+                {
+                    return NotFound();
+                }
+
+                await _quizRepository.DeleteQuiz(id);
+                responseDto.Result = quiz;
+                return NoContent();
             }
-
-            _dbContext.Quizzes.Remove(quiz);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
-        }
+            catch (Exception ex)
+            {
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+         }
 
         #endregion
 
         private async Task<bool> QuizExists(int id)
         {
-            return _dbContext.Quizzes.Any(q => q.QuizId == id);
+            return await _quizRepository.HasQuiz(id);
         }
 
     }

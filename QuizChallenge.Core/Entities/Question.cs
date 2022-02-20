@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Core.Entities
 {
-    public class Question
+    public partial class Question
     {
         public Question()
         {
@@ -24,10 +24,9 @@ namespace QuizChallenge.Core.Entities
 
 
 
-        [Required]
         public int? QuizId { get; set; }
         [ForeignKey("QuizId")]
-        public virtual Quiz Quiz { get; set; }
+        public virtual Quiz? Quiz { get; set; }
 
        
 

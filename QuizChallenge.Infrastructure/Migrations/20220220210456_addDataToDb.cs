@@ -12,13 +12,13 @@ namespace QuizChallenge.Infrastructure.Migrations
                 name: "Quizzes",
                 columns: table => new
                 {
-                    QuizId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Quizzes", x => x.QuizId);
+                    table.PrimaryKey("PK_Quizzes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -27,19 +27,18 @@ namespace QuizChallenge.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CorrectAnswerId = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: false)
+                    QuizId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_Quizzes_QuizId",
+                        name: "FK_Questions_ToTable",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "QuizId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -63,14 +62,22 @@ namespace QuizChallenge.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Quizzes",
-                columns: new[] { "QuizId", "Title" },
-                values: new object[] { 3, "Iphone" });
+                table: "Questions",
+                columns: new[] { "Id", "CorrectAnswerId", "QuizId", "Text" },
+                values: new object[,]
+                {
+                    { 1, 1, null, "System" },
+                    { 2, 2, null, "Work" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Quizzes",
-                columns: new[] { "QuizId", "Title" },
-                values: new object[] { 4, "Samsung" });
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
+                {
+                    { 3, "Iphone" },
+                    { 4, "Samsung" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

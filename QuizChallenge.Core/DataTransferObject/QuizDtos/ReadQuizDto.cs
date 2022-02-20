@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizChallenge.Core.DataTransferObject.QuizDtos
 {
-    public class ReadQuizDto
+    public class ReadQuizDto : BaseDto
     {
         public string Title { get; set; }
     }

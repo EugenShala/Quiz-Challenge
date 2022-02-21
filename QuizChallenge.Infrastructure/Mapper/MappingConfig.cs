@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using QuizChallenge.Core.DataTransferObject.AnswerDtos;
 using QuizChallenge.Core.DataTransferObject.QuizDtos;
 using QuizChallenge.Core.Entities;
 using System;
@@ -19,6 +20,9 @@ namespace QuizChallenge.Infrastructure.Mapper
                 config.CreateMap<UpdateQuizDto, Quiz>().ReverseMap();
                 config.CreateMap<ReadQuizDto, Quiz>().ReverseMap();
                 config.CreateMap<QuizDetailsDto, Quiz>().ReverseMap();
+
+
+                config.CreateMap<AnswerDetailsDto, Answer>().ReverseMap();
             });
             return mappingConfig;
         }

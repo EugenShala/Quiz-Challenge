@@ -12,7 +12,6 @@ namespace QuizChallenge.Core.Entities
         public Quiz()
         {
             Questions = new HashSet<Question>();
-            //  Answers = new HashSet<Answer>();  
         }
 
 
@@ -21,7 +20,6 @@ namespace QuizChallenge.Core.Entities
         public string Title { get; set; }
 
        public ICollection<Question> Questions { get; set; }
-      // public ICollection<Answer> Answers { get; set; }
 
     }
 }

@@ -7,7 +7,6 @@ using QuizChallenge.Core.Entities;
 using QuizChallenge.Core.IRepository;
 using QuizChallenge.Infrastructure.Data;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace QuizChallenge.Api.Controllers
 {

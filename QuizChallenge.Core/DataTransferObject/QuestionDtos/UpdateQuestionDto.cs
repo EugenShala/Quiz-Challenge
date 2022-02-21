@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace QuizChallenge.Core.DataTransferObject.QuestionDtos
 {
-    public class ReadQuestionDto : BaseDto
+    public class UpdateQuestionDto : BaseDto
     {
-        public string Text { get; set; }
+        [Required]
+        [StringLength(80)]
+        public string Title { get; set; }
         public int CorrectAnswerId { get; set; }
+
+        [Required]
         public int QuizId { get; set; }
     }
 }

@@ -9,13 +9,12 @@ namespace ChallengeDemo.Core.IRepository
 {
     public interface IQuestionRepository 
     {
-        //Task<ICollection<Question>> GetQuestions();
-        //Task<Question> GetQuestion (int questionId);
-        //Task<bool> QuestionExists(string questionName);
-        //Task<bool> QuestionExists(int questionId);
-        //Task<bool> CreateQuestion(Question createQuestion); 
-        //Task<bool> UpdateQuestion(Question updateQuestion);
-        //Task<bool> DeleteQuestion(int questionId);
-        //Task<bool> Save();
+        Task<Question> GetQuestionById(int? id);
+        Task<List<Question>> GetAllQuestions();
+        Task<Question> AddQuestion(Question question);
+        Task<Question> UpdateQuestion(Question question);
+        Task<Question> DeleteQuestion(int id);
+        Task<bool> HasQuestion(int id);
+       // Task<AnswerDetailsDto> GetAnswerDetails(int id);
     }
 }

@@ -7,45 +7,72 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChallengeDemo.Core.IRepository;
+using QuizChallenge.Core.DataTransferObject.QuestionDtos;
+using QuizChallenge.Core.DataTransferObject.AnswerDtos;
+using AutoMapper.QueryableExtensions;
+using AutoMapper;
 
 namespace QuizChallenge.Infrastructure.Repositories
 {
     public class QuestionRepository : IQuestionRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public QuestionRepository(ApplicationDbContext dbContext) 
+        private readonly IMapper mapper;
+
+        public QuestionRepository(ApplicationDbContext dbContext, IMapper mapper) 
         {
             _dbContext = dbContext;
+            this.mapper = mapper;
         }
 
-        public Task<Question> AddQuestion(Question question)
+        public async Task<CreateQuestionDto> AddQuestion(CreateQuestionDto question)
         {
-            throw new NotImplementedException();
+            await _dbContext.AddAsync(question);
+            await _dbContext.SaveChangesAsync();
+            return question;
         }
 
-        public Task<Question> DeleteQuestion(int id)
+        public async Task<DeleteQuestionDto> DeleteQuestion(int id)
         {
-            throw new NotImplementedException();
+            var question = await DeleteQuestion(id);
+            _dbContext.Set<DeleteQuestionDto>().Remove(question);
+            await _dbContext.SaveChangesAsync();
+            return question;
         }
 
-        public Task<List<Question>> GetAllQuestions()
+        public async Task<List<ReadQuestionDto>> GetAllQuestions()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<ReadQuestionDto>().ToListAsync();
         }
 
-        public Task<Question> GetQuestionById(int? id)
+        public async Task<QuestionDetailsDto> GetQuestionDetails(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext
+             .Questions.Include(q => q.Answers)
+             .ProjectTo<QuestionDetailsDto>(mapper.ConfigurationProvider)
+             .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public Task<bool> HasQuestion(int id)
+        public async Task<QuestionDetailsDto> GetQuestionById(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                return null;
+            }
+            return await _dbContext.Set<QuestionDetailsDto>().FindAsync(id);
         }
 
-        public Task<Question> UpdateQuestion(Question question)
+        public async Task<bool> HasQuestion(int id)
         {
-            throw new NotImplementedException();
+            var question = await GetQuestionById(id);
+            return question != null;
+        }
+
+        public async Task<UpdateQuestionDto> UpdateQuestion(UpdateQuestionDto question)
+        {
+            _dbContext.Update(question);
+            await _dbContext.SaveChangesAsync();
+            return question;
         }
     }
 }

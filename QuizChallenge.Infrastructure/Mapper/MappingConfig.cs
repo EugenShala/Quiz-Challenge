@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using QuizChallenge.Core.DataTransferObject.AnswerDtos;
+using QuizChallenge.Core.DataTransferObject.QuestionDtos;
 using QuizChallenge.Core.DataTransferObject.QuizDtos;
 using QuizChallenge.Core.Entities;
 using System;
@@ -23,6 +24,14 @@ namespace QuizChallenge.Infrastructure.Mapper
 
 
                 config.CreateMap<AnswerDetailsDto, Answer>().ReverseMap();
+
+
+                config.CreateMap<QuestionDetailsDto, Question>().ReverseMap();
+                config.CreateMap<DeleteQuestionDto, Question>().ReverseMap();
+                config.CreateMap<UpdateAnswerDto, Question>().ReverseMap();
+                config.CreateMap<ReadAnswerDto, Question>().ReverseMap();
+                config.CreateMap<AnswerDetailsDto, Question>().ReverseMap();
+
             });
             return mappingConfig;
         }

@@ -55,10 +55,11 @@ namespace QuizChallenge.Infrastructure.Repositories
              .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task<QuestionDetailsDto> GetQuestionById(int? id)
+        public async Task<QuestionById> GetQuestionById(int? id)
         {
+          // return await _dbContext.Set<QuestionById>().FindAsync(id);
             var question = await _dbContext.Questions.FindAsync(id);
-            return mapper.Map<QuestionDetailsDto>(question);
+            return mapper.Map<QuestionById>(question);
         }
 
         public async Task<bool> HasQuestion(int id)

@@ -130,7 +130,33 @@ namespace QuizChallenge.Api.Controllers
 
         #endregion
 
+        #region Remove Question
 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteQuestion(int id)
+        {
+            try
+            {
+                var question = await _questionRepository.GetQuestionById(id);
+                if (question == null)
+                {
+                    return NotFound();
+                }
+
+                await _questionRepository.DeleteQuestion(id);
+
+                responseDto.Result = question;
+                return Ok(question);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Success = false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+        }
+
+        #endregion
         private async Task<bool> HasQuestion(int id)
         {
             return await _questionRepository.HasQuestion(id);

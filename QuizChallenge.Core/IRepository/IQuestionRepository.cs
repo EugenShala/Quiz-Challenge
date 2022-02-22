@@ -11,7 +11,7 @@ namespace ChallengeDemo.Core.IRepository
 {
     public interface IQuestionRepository 
     {
-        Task<QuestionDetailsDto> GetQuestionById(int? id);
+        Task<QuestionById> GetQuestionById(int? id);
         Task<List<ReadQuestionDto>> GetAllQuestions();
         Task<CreateQuestionDto> AddQuestion(CreateQuestionDto question);
         Task<UpdateQuestionDto> UpdateQuestion(UpdateQuestionDto question);

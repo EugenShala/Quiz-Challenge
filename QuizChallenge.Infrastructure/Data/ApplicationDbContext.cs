@@ -16,9 +16,9 @@ namespace QuizChallenge.Infrastructure.Data
         }
 
 
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<Answer> Answers { get; set; }
-        public DbSet<Quiz> Quizzes { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Quiz> Quizzes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -31,6 +31,7 @@ namespace QuizChallenge.Infrastructure.Mapper
                 config.CreateMap<UpdateQuestionDto, Question>().ReverseMap();
                 config.CreateMap<ReadQuestionDto, Question>().ReverseMap();
                 config.CreateMap<QuestionDetailsDto, Question>().ReverseMap();
+                config.CreateMap<QuestionById, Question>().ReverseMap();
 
             });
             return mappingConfig;

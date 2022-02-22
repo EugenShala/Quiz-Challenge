@@ -27,9 +27,11 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task<CreateQuestionDto> AddQuestion(CreateQuestionDto question)
         {
-            await _dbContext.AddAsync(question);
+            var questions = mapper.Map<Question>(question);
+            await _dbContext.AddAsync(questions);
             await _dbContext.SaveChangesAsync();
             return question;
+            
         }
 
         public async Task<DeleteQuestionDto> DeleteQuestion(int id)
@@ -42,7 +44,7 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task<List<ReadQuestionDto>> GetAllQuestions()
         {
-            return await _dbContext.Set<ReadQuestionDto>().ToListAsync();
+            return await _dbContext.Questions.Include(a => a.Answers).ProjectTo<ReadQuestionDto>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<QuestionDetailsDto> GetQuestionDetails(int id)
@@ -55,11 +57,8 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task<QuestionDetailsDto> GetQuestionById(int? id)
         {
-            if (id == null)
-            {
-                return null;
-            }
-            return await _dbContext.Set<QuestionDetailsDto>().FindAsync(id);
+            var question = await _dbContext.Questions.FindAsync(id);
+            return mapper.Map<QuestionDetailsDto>(question);
         }
 
         public async Task<bool> HasQuestion(int id)
@@ -70,7 +69,10 @@ namespace QuizChallenge.Infrastructure.Repositories
 
         public async Task<UpdateQuestionDto> UpdateQuestion(UpdateQuestionDto question)
         {
-            _dbContext.Update(question);
+            var questions = mapper.Map<Question>(question);
+            _dbContext.Entry(questions).State = EntityState.Detached;
+            //_dbContext.Entry(questions).State = EntityState.Modified;
+             _dbContext.Questions.Update(questions);
             await _dbContext.SaveChangesAsync();
             return question;
         }

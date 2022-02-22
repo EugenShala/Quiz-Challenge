@@ -1,0 +1,139 @@
+﻿using AutoMapper;
+using ChallengeDemo.Core.IRepository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using QuizChallenge.Core.DataTransferObject;
+using QuizChallenge.Core.DataTransferObject.QuestionDtos;
+using QuizChallenge.Core.Entities;
+
+namespace QuizChallenge.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class QuestionController : ControllerBase
+    {
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IMapper _mapper;
+        protected ResponseDto responseDto;
+
+        public QuestionController(IQuestionRepository questionRepository, IMapper mapper)
+        {
+            _questionRepository = questionRepository;
+            this._mapper = mapper;
+            responseDto = new ResponseDto();
+        }
+
+        #region Read Only Questions
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ReadQuestionDto>>> GetQuestions()
+        {
+            try
+            {
+                var questionModel = await _questionRepository.GetAllQuestions();
+                var questionDto = _mapper.Map<IEnumerable<ReadQuestionDto>>(questionModel);
+                responseDto.Result = questionDto;
+                return Ok(questionDto);
+            }
+            catch (Exception ex)
+            {
+                responseDto.Success = false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<QuestionDetailsDto>> GetQuestionDetails(int id)
+        {
+            try
+            {
+                var quiz = await _questionRepository.GetQuestionDetails(id);
+
+                if (quiz == null)
+                {
+                    return NotFound();
+                }
+
+                responseDto.Result = quiz;
+                return Ok(quiz);
+            }
+
+            catch (Exception ex)
+            {
+                responseDto.Success = false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+        }
+
+
+        #endregion
+
+
+        #region Create Question
+
+        [HttpPost]
+        public async Task<ActionResult<CreateQuestionDto>> PostQuestion(CreateQuestionDto questionDto)
+        {
+            try
+            {
+                await _questionRepository.AddQuestion(questionDto);
+                responseDto.Result = questionDto;
+
+                return CreatedAtAction("GetQuestions", new { id = questionDto }, questionDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+        }
+
+        #endregion
+
+
+        #region Update Question
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutQuestion(int id, UpdateQuestionDto questionDto)
+        {
+            try
+
+            {
+
+                if (id != questionDto.Id)
+                {
+                    return BadRequest();
+                }
+                var question = await _questionRepository.GetQuestionById(id);
+                if (question == null)
+                {
+                    return NotFound();
+                }
+                _mapper.Map(questionDto, question);
+
+             //   await _questionRepository.UpdateQuestion(question);
+                responseDto.Result = questionDto;
+
+            }
+            catch (Exception ex)
+            {
+                if (!await HasQuestion(id))
+                {
+                    return NotFound();
+                }
+
+                responseDto.Success = false;
+                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+            }
+            return NoContent();
+        }
+
+        #endregion
+
+
+        private async Task<bool> HasQuestion(int id)
+        {
+            return await _questionRepository.HasQuestion(id);
+        }
+    }
+}

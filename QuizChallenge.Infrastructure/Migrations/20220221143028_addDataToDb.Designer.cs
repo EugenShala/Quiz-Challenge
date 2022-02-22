@@ -12,7 +12,7 @@ using QuizChallenge.Infrastructure.Data;
 namespace QuizChallenge.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220220210456_addDataToDb")]
+    [Migration("20220221143028_addDataToDb")]
     partial class addDataToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,12 +76,14 @@ namespace QuizChallenge.Infrastructure.Migrations
                         {
                             Id = 1,
                             CorrectAnswerId = 1,
+                            QuizId = 2,
                             Text = "System"
                         },
                         new
                         {
                             Id = 2,
                             CorrectAnswerId = 2,
+                            QuizId = 1,
                             Text = "Work"
                         });
                 });
@@ -106,12 +108,12 @@ namespace QuizChallenge.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 3,
+                            Id = 1,
                             Title = "Iphone"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 2,
                             Title = "Samsung"
                         });
                 });

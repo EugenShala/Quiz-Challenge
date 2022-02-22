@@ -62,22 +62,24 @@ namespace QuizChallenge.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "Id", "CorrectAnswerId", "QuizId", "Text" },
-                values: new object[,]
-                {
-                    { 1, 1, null, "System" },
-                    { 2, 2, null, "Work" }
-                });
+                table: "Quizzes",
+                columns: new[] { "Id", "Title" },
+                values: new object[] { 1, "Iphone" });
 
             migrationBuilder.InsertData(
                 table: "Quizzes",
                 columns: new[] { "Id", "Title" },
-                values: new object[,]
-                {
-                    { 3, "Iphone" },
-                    { 4, "Samsung" }
-                });
+                values: new object[] { 2, "Samsung" });
+
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "Id", "CorrectAnswerId", "QuizId", "Text" },
+                values: new object[] { 1, 1, 2, "System" });
+
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "Id", "CorrectAnswerId", "QuizId", "Text" },
+                values: new object[] { 2, 2, 1, "Work" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",

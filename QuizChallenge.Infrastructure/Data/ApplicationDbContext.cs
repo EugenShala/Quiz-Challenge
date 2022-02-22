@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QuizChallenge.Core.DataTransferObject.QuestionDtos;
 using QuizChallenge.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -47,12 +48,12 @@ namespace QuizChallenge.Infrastructure.Data
             {
             new Quiz
              {
-                Id = 3,
+                Id = 1,
                 Title = "Iphone"
              },
             new Quiz
             {
-                 Id = 4,
+                 Id = 2,
                 Title = "Samsung"
             }
            });
@@ -63,13 +64,15 @@ namespace QuizChallenge.Infrastructure.Data
                {
                   Id = 1,
                   Text = "System",
-                   CorrectAnswerId = 1
+                   CorrectAnswerId = 1,
+                   QuizId = 2,
                },
                new Question
                {
                   Id = 2,
                   Text = "Work",
-                   CorrectAnswerId = 2
+                   CorrectAnswerId = 2,
+                   QuizId = 1,
                }
             });
 

@@ -71,7 +71,7 @@ namespace QuizChallenge.Api.Controllers
 
         #endregion
 
-            #region Create Quize
+        #region Create Quize
 
             [HttpPost]
         public async Task<ActionResult<CreateQuizDto>> PostQuiz(CreateQuizDto quizDto)

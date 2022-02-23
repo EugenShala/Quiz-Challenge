@@ -25,26 +25,27 @@ namespace QuizChallenge.Infrastructure.Repositories
             this.mapper = mapper;
         }
 
-        public async Task<CreateQuestionDto> AddQuestion(CreateQuestionDto question)
+        public async Task<Question> AddQuestion(Question question)
         {
-            var questions = mapper.Map<Question>(question);
-            await _dbContext.AddAsync(questions);
+            await _dbContext.AddAsync(question);
             await _dbContext.SaveChangesAsync();
             return question;
-            
+
         }
 
-        public async Task<DeleteQuestionDto> DeleteQuestion(int id)
+        public async Task<Question> DeleteQuestion(int id)
         {
-            var question = await DeleteQuestion(id);
-            _dbContext.Set<DeleteQuestionDto>().Remove(question);
+            var question = await GetQuestionById(id);
+            _dbContext.Set<Question>().Remove(question);
             await _dbContext.SaveChangesAsync();
             return question;
         }
 
-        public async Task<List<ReadQuestionDto>> GetAllQuestions()
+        public async Task<List<Question>> GetAllQuestions()
         {
-            return await _dbContext.Questions.Include(a => a.Answers).ProjectTo<ReadQuestionDto>(mapper.ConfigurationProvider).ToListAsync();
+            //return await _dbContext.Questions.Include(a => a.Answers).ProjectTo<Question>(mapper.ConfigurationProvider).ToListAsync();
+            return await _dbContext.Questions.Include(a => a.Answers).ToListAsync();
+
         }
 
         public async Task<QuestionDetailsDto> GetQuestionDetails(int id)
@@ -55,11 +56,13 @@ namespace QuizChallenge.Infrastructure.Repositories
              .FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task<QuestionById> GetQuestionById(int? id)
+        public async Task<Question> GetQuestionById(int? id)
         {
-          // return await _dbContext.Set<QuestionById>().FindAsync(id);
-            var question = await _dbContext.Questions.FindAsync(id);
-            return mapper.Map<QuestionById>(question);
+            if (id == null)
+            {
+                return null;
+            }
+            return await _dbContext.Set<Question>().FindAsync(id);
         }
 
         public async Task<bool> HasQuestion(int id)
@@ -68,12 +71,9 @@ namespace QuizChallenge.Infrastructure.Repositories
             return question != null;
         }
 
-        public async Task<UpdateQuestionDto> UpdateQuestion(UpdateQuestionDto question)
+        public async Task<Question> UpdateQuestion(Question question)
         {
-            var questions = mapper.Map<Question>(question);
-            _dbContext.Entry(questions).State = EntityState.Detached;
-            //_dbContext.Entry(questions).State = EntityState.Modified;
-             _dbContext.Questions.Update(questions);
+             _dbContext.Update(question);
             await _dbContext.SaveChangesAsync();
             return question;
         }

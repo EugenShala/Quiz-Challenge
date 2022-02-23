@@ -2,6 +2,7 @@
 using ChallengeDemo.Core.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuizChallenge.Core.DataTransferObject;
 using QuizChallenge.Core.DataTransferObject.QuestionDtos;
 using QuizChallenge.Core.Entities;
@@ -77,7 +78,8 @@ namespace QuizChallenge.Api.Controllers
         {
             try
             {
-                await _questionRepository.AddQuestion(questionDto);
+                var quiz = _mapper.Map<Question>(questionDto);
+                await _questionRepository.AddQuestion(quiz);
                 responseDto.Result = questionDto;
 
                 return CreatedAtAction("GetQuestions", new { id = questionDto }, questionDto);
@@ -104,26 +106,29 @@ namespace QuizChallenge.Api.Controllers
                 {
                     return BadRequest();
                 }
+
                 var question = await _questionRepository.GetQuestionById(id);
                 if (question == null)
                 {
                     return NotFound();
                 }
-                _mapper.Map(questionDto, question);
 
-             //   await _questionRepository.UpdateQuestion(question);
+                _mapper.Map(questionDto, question);
+               await _questionRepository.UpdateQuestion(question);
                 responseDto.Result = questionDto;
 
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!await HasQuestion(id))
                 {
                     return NotFound();
                 }
-
-                responseDto.Success = false;
-                return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+                else
+                {
+                    responseDto.Success = false;
+                    return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
+                } 
             }
             return NoContent();
         }

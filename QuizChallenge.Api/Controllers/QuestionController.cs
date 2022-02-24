@@ -114,7 +114,7 @@ namespace QuizChallenge.Api.Controllers
                 }
 
                 _mapper.Map(questionDto, question);
-               await _questionRepository.UpdateQuestion(question);
+                await _questionRepository.UpdateQuestion(question);
                 responseDto.Result = questionDto;
 
             }

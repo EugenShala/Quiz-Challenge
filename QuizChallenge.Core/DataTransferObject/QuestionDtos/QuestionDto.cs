@@ -3,6 +3,7 @@ using QuizChallenge.Core.DataTransferObject.QuizDtos;
 using QuizChallenge.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace QuizChallenge.Core.DataTransferObject.QuestionDtos
         }
 
         public int Id { get; set; }
+        [Required]
         public string Text { get; set; }
         public int CorrectAnswerId { get; set; }
 
@@ -24,7 +26,8 @@ namespace QuizChallenge.Core.DataTransferObject.QuestionDtos
         public ICollection<AnswerDto> Answers { get; set; }
 
 
-        //public int QuizId { get; set; }
-        //public virtual QuizDto Quiz { get; set; }
+        [Required]
+        public int QuizId { get; set; }
+        public virtual QuizDto Quiz { get; set; }
     }
 }

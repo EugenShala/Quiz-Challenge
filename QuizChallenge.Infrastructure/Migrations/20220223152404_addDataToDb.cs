@@ -29,7 +29,7 @@ namespace QuizChallenge.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CorrectAnswerId = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<int>(type: "int", nullable: true)
+                    QuizId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +38,8 @@ namespace QuizChallenge.Infrastructure.Migrations
                         name: "FK_Questions_ToTable",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

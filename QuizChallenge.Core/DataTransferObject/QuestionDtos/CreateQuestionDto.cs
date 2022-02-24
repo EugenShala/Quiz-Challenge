@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizChallenge.Core.DataTransferObject.QuizDtos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

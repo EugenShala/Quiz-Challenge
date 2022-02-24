@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizChallenge.Infrastructure.Data;
 
@@ -10,9 +11,10 @@ using QuizChallenge.Infrastructure.Data;
 namespace QuizChallenge.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220223152404_addDataToDb")]
+    partial class addDataToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,20 +43,6 @@ namespace QuizChallenge.Infrastructure.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            QuestionId = 1,
-                            Text = "Answer 1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            QuestionId = 2,
-                            Text = "Answer 2"
-                        });
                 });
 
             modelBuilder.Entity("QuizChallenge.Core.Entities.Question", b =>

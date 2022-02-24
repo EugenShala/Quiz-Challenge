@@ -62,6 +62,7 @@ namespace QuizChallenge.Infrastructure.Repositories
             {
                 return null;
             }
+
             return await _dbContext.Set<Question>().FindAsync(id);
         }
 

@@ -76,6 +76,22 @@ namespace QuizChallenge.Infrastructure.Data
                }
             });
 
+
+            modelBuilder.Entity<Answer>().HasData(new[]
+            {
+                new Answer
+                {
+                    Id = 1,
+                    Text = "Answer 1",
+                    QuestionId = 1,
+                },
+                new Answer
+                {
+                    Id = 4,
+                    Text = "Answer 2",
+                    QuestionId = 2,
+                }
+            });
         }
 
 

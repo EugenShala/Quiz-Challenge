@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ChallengeDemo.Core.IRepository;
+using ChallengeDemo.Api.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using QuizChallenge.Core.DataTransferObject;
-using QuizChallenge.Core.DataTransferObject.AnswerDtos;
-using QuizChallenge.Core.Entities;
+using QuizChallenge.Api.DataTransferObject;
+using QuizChallenge.Api.DataTransferObject.AnswerDtos;
+using QuizChallenge.Api.Entities;
 
 namespace QuizChallenge.Api.Controllers
 {

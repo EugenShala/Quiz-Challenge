@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using QuizChallenge.Core.DataTransferObject;
-using QuizChallenge.Core.DataTransferObject.QuizDtos;
-using QuizChallenge.Core.Entities;
-using QuizChallenge.Core.IRepository;
-using QuizChallenge.Infrastructure.Data;
+using QuizChallenge.Api.DataTransferObject;
+using QuizChallenge.Api.DataTransferObject.QuizDtos;
+using QuizChallenge.Api.Entities;
+using QuizChallenge.Api.IRepository;
+using QuizChallenge.Api.Data;
 
 
 namespace QuizChallenge.Api.Controllers

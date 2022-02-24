@@ -78,8 +78,8 @@ namespace QuizChallenge.Api.Controllers
         {
             try
             {
-                var quiz = _mapper.Map<Question>(questionDto);
-                await _questionRepository.AddQuestion(quiz);
+                var question = _mapper.Map<Question>(questionDto);
+                await _questionRepository.AddQuestion(question);
                 responseDto.Result = questionDto;
 
                 return CreatedAtAction("GetQuestions", new { id = questionDto }, questionDto);
@@ -135,6 +135,7 @@ namespace QuizChallenge.Api.Controllers
 
         #endregion
 
+
         #region Remove Question
 
 
@@ -162,6 +163,8 @@ namespace QuizChallenge.Api.Controllers
         }
 
         #endregion
+
+
         private async Task<bool> HasQuestion(int id)
         {
             return await _questionRepository.HasQuestion(id);

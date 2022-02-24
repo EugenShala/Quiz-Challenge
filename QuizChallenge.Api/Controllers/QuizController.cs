@@ -99,26 +99,27 @@ namespace QuizChallenge.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutQuiz(int id, UpdateQuizDto quizDto)
         {
-            if (id != quizDto.Id)
-            {
-                return BadRequest();
-            }
-
-
-            var quiz = await _quizRepository.GetQuizById(id);
-
-            if (quiz == null)
-            {
-                return NotFound();
-            }
-
-             _mapper.Map(quizDto, quiz);
 
             try
             {
-               await _quizRepository.UpdateQuiz(quiz);
+                if (id != quizDto.Id)
+                {
+                    return BadRequest();
+                }
+
+                var quiz = await _quizRepository.GetQuizById(id);
+
+                if (quiz == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(quizDto, quiz);
+                await _quizRepository.UpdateQuiz(quiz);
+                responseDto.Result = quizDto;
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
                 if (!await QuizExists(id))
                 {
@@ -126,9 +127,11 @@ namespace QuizChallenge.Api.Controllers
                 }
                 else
                 {
-                    throw;
+                    responseDto.Success = false;
+                    return StatusCode(500, responseDto.Error = new List<string>() { ex.ToString() });
                 }
             }
+
             return NoContent();
         }
 

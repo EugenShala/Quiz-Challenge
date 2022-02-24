@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChallengeDemo.Api.IRepository
+namespace ChallengeDemo.Api.Services.IRepository
 {
     public interface IAnswerRepository 
     {

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChallengeDemo.Api.IRepository;
+using ChallengeDemo.Api.Services.IRepository;
 using QuizChallenge.Api.DataTransferObject.AnswerDtos;
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
 
-namespace QuizChallenge.Api.Repositories
+namespace QuizChallenge.Api.Services.Repositories
 {
     public class AnswerRepository : IAnswerRepository
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ChallengeDemo.Api.IRepository;
+using ChallengeDemo.Api.Services.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuizChallenge.Api.DataTransferObject;

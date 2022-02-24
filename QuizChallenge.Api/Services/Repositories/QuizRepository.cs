@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using QuizChallenge.Api.DataTransferObject.QuizDtos;
 using QuizChallenge.Api.Entities;
-using QuizChallenge.Api.IRepository;
+using QuizChallenge.Api.Services.IRepository;
 using QuizChallenge.Api.Data;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizChallenge.Api.Repositories
+namespace QuizChallenge.Api.Services.Repositories
 {
     public class QuizRepository : IQuizRepository
     {

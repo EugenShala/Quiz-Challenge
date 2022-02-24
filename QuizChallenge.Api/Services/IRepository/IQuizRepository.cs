@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuizChallenge.Api.IRepository
+namespace QuizChallenge.Api.Services.IRepository
 {
     public interface IQuizRepository
     {

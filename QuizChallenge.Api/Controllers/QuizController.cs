@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QuizChallenge.Api.DataTransferObject;
 using QuizChallenge.Api.DataTransferObject.QuizDtos;
 using QuizChallenge.Api.Entities;
-using QuizChallenge.Api.IRepository;
+using QuizChallenge.Api.Services.IRepository;
 using QuizChallenge.Api.Data;
 
 

@@ -1,9 +1,9 @@
 using AutoMapper;
-using ChallengeDemo.Api.IRepository;
+using ChallengeDemo.Api.Services.IRepository;
 using Microsoft.EntityFrameworkCore;
 using QuizChallenge.Api.Data;
-using QuizChallenge.Api.IRepository;
-using QuizChallenge.Api.Repositories;
+using QuizChallenge.Api.Services.IRepository;
+using QuizChallenge.Api.Services.Repositories;
 using QuizChallenge.Api.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);

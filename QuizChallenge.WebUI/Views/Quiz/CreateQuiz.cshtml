@@ -1,0 +1,23 @@
+﻿@model Quiz
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "CreateQuiz";
+}
+
+
+<form method="post" asp-action="CreateQuiz">
+
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Create Quiz</label>
+    <div class="col-sm-10">
+      <input asp-for="Title" type="text" class="form-control">
+      @Html.ValidationMessageFor(t => t.Title)
+    </div>
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+
+  </form>

@@ -11,7 +11,7 @@ namespace QuizChallenge.WebUI.Models
 
 
         public int Id { get; set; }
-        [Required]
+        [Required (ErrorMessage = "Please fill Title Area")]
         public string Title { get; set; }
 
         public ICollection<Question> Questions { get; set; }

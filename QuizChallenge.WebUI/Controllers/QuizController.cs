@@ -22,5 +22,28 @@ namespace QuizChallenge.WebUI.Controllers
 
             return View(listQuiz);
         }
+
+
+        public async Task<IActionResult> CreateQuiz(Quiz quiz)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new HttpClient();
+                var jsonQuiz = JsonConvert.SerializeObject(quiz);
+                StringContent content = new StringContent(jsonQuiz, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage message = await client.PostAsync("https://localhost:7073/api/Quiz", content);
+                if (message.IsSuccessStatusCode)
+                {
+                    return RedirectPermanent("Index");
+                }
+                else
+                    ModelState.AddModelError("Error", "There is an API error");
+                return View(quiz);
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }

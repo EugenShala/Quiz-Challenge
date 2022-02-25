@@ -1,0 +1,48 @@
+﻿@model List<Quiz>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Employee <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Phone</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                       @foreach(var quiz in Model)
+                            {
+                           <tr>
+                          <th scope="row">@quiz.Id</th>
+                          <td>@quiz.Title</td>
+                          <td>
+                              <a asp-action="UpdateQuiz" asp-route-id="@quiz.Id">Edit </a>  ||
+                              <a asp-action="DeleteQuiz" asp-route-id="@quiz.Id" class="delete"> Delete</a>
+                          </td>
+                        </tr>
+                            }
+  
+
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+

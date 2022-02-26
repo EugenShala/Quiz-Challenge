@@ -1,5 +1,4 @@
-﻿@using QuizChallenge.WebUI.Models.View_Models
-@model Question
+﻿@model Question
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 
@@ -8,12 +7,11 @@
 }
 
 <div class="container">
-	<h2>Survey</h2>
+	<h2>Question</h2>
 	<form method="post" asp-action="CreateQuestion">
       <div class="form-group">
         <label> Text</label>
         <input asp-for="Text" type="text" class="form-control" placeholder="Type question here...">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
       
       <p class"question"="">Correct Answer</p>
@@ -24,8 +22,7 @@
             Quiz ID
           </label>
         <div class="form-check">
-@*            @Model.QuizId
-*@        <input asp-for="QuizId" class="form-control" placeholder="Type correct Answer here...">
+    <input asp-for="QuizId" class="form-control" placeholder="Type correct Answer here...">
 
         </div>
             <div>

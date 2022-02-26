@@ -10,14 +10,16 @@ namespace QuizChallenge.WebUI.Models
             Answers = new HashSet<Answer>();
         }
         public int Id { get; set; }
+        [Required(ErrorMessage = "Please fill Text Area")]
         public string Text { get; set; }
+        [Required(ErrorMessage = "Please fill CorrectAnswerId Area")]
         public int CorrectAnswerId { get; set; }
 
 
         public ICollection<Answer> Answers { get; set; }
 
 
-
+        [Required]
         public int QuizId { get; set; }
         [ForeignKey("QuizId")]
         public Quiz Quiz { get; set; }

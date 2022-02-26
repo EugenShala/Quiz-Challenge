@@ -1,5 +1,4 @@
-﻿@using QuizChallenge.WebUI.Models.View_Models
-@model List<Question>
+﻿@model List<Question>
 
 @{
     ViewData["Title"] = "Index";
@@ -34,9 +33,8 @@
                           <td>@question.Text</td>
                           <td>@question.CorrectAnswerId</td>
                           <td>
-                              <a asp-action="UpdateQuiz" asp-route-id="@question.Id">Edit </a>  ||
-                              <a asp-action="DeleteQuiz" asp-route-id="@question.Id"> Delete</a> ||
-                              <a asp-action="DetailsQuiz" asp-route-id="@question.Id"> Details</a>
+                              <a asp-action="UpdateQuestion" asp-route-id="@question.Id">Edit </a>  ||
+                              <a asp-action="DeleteQuestion" asp-route-id="@question.Id"> Delete</a> ||
                           </td>
                         </tr>
                             }

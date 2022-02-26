@@ -71,20 +71,20 @@ namespace QuizChallenge.WebUI.Controllers
             {
                 HttpClient client = new HttpClient();
                 var jsonQuiz = JsonConvert.SerializeObject(quiz);
-                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8,"application/json");
+                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8, "application/json");
                 HttpResponseMessage message = await client.PutAsync("https://localhost:7073/api/Quiz", content);
-
                 if (message.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectPermanent("Index");
                 }
                 else
-                {
-                    return View(quiz);
-                }
+                    ModelState.AddModelError("Error", "There is an API error");
+                return View(quiz);
             }
             else
+            {
                 return View(quiz);
+            }
         }
 
 

@@ -1,0 +1,29 @@
+﻿@model Answer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "CreateAnswer";
+}
+
+<div class="container">
+	<h2>Answer</h2>
+	<form method="post" asp-action="CreateAnswer">
+      <div class="form-group">
+        <label> Text</label>
+        <input asp-for="Text" type="text" class="form-control" placeholder="Type question here...">
+         @Html.ValidationMessageFor(t => t.Text)
+      </div>
+      
+      <p class"question"="">Question ID</p>
+      <div class="form-check">
+        <input asp-for="QuestionId" type="number"  class="form-control" placeholder="Choose Question ID here...">
+        @Html.ValidationMessageFor(t => t.QuestionId)
+        </div>
+            <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+</div>
+
+

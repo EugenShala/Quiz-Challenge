@@ -1,0 +1,41 @@
+﻿@model List<Answer>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Answer <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <a asp-action="CreateAnswer" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Answer</a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                       <th>Text</th>
+                        <th>Question ID</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                       @foreach(var answer in Model)
+                            {
+                           <tr>
+                          <th scope="row">@answer.Id</th>
+                          <td>@answer.Text</td>
+                          <td>@answer.QuestionId</td>
+                          <td>
+                              <a asp-action="UpdateAnswer" asp-route-id="@answer.Id">Edit </a>  ||
+                              <a asp-action="DeleteAnswer" asp-route-id="@answer.Id"> Delete</a> ||
+                          </td>
+                        </tr>
+                            }
+                </tbody>
+            </table>
+        </div>
+    </div>

@@ -10,7 +10,6 @@ namespace QuizChallenge.WebUI.Models
             Answers = new HashSet<Answer>();
         }
         public int Id { get; set; }
-        [Required]
         public string Text { get; set; }
         public int CorrectAnswerId { get; set; }
 
@@ -21,7 +20,7 @@ namespace QuizChallenge.WebUI.Models
 
         public int QuizId { get; set; }
         [ForeignKey("QuizId")]
-        public virtual Quiz Quiz { get; set; }
+        public Quiz Quiz { get; set; }
 
 
     }

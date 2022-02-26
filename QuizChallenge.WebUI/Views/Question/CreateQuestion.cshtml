@@ -1,30 +1,37 @@
-﻿
+﻿@using QuizChallenge.WebUI.Models.View_Models
+@model Question
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
 @{
     ViewData["Title"] = "CreateQuestion";
 }
 
 <div class="container">
 	<h2>Survey</h2>
-	<form>
+	<form method="post" asp-action="CreateQuestion">
       <div class="form-group">
-        <label for="exampleInputEmail1">Short Question</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Type answer here...">
+        <label> Text</label>
+        <input asp-for="Text" type="text" class="form-control" placeholder="Type question here...">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
       
-      <p class"question"="">What type of role?</p>
+      <p class"question"="">Correct Answer</p>
       <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            First radio
-          </label>
+        <input asp-for="CorrectAnswerId"  class="form-control" placeholder="Type correct Answer here...">
         </div>
+        <label class="form-check-label">
+            Quiz ID
+          </label>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Second radio
-          </label>
+@*            @Model.QuizId
+*@        <input asp-for="QuizId" class="form-control" placeholder="Type correct Answer here...">
+
         </div>
+            <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
     </form>
 </div>
+
 

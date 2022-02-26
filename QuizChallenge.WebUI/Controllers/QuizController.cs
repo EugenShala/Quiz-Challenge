@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using QuizChallenge.WebUI.Models;
 using System.Net;
+using System.Text;
 
 namespace QuizChallenge.WebUI.Controllers
 {
@@ -30,7 +31,7 @@ namespace QuizChallenge.WebUI.Controllers
             {
                 HttpClient client = new HttpClient();
                 var jsonQuiz = JsonConvert.SerializeObject(quiz);
-                StringContent content = new StringContent(jsonQuiz, System.Text.Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8, "application/json");
                 HttpResponseMessage message = await client.PostAsync("https://localhost:7073/api/Quiz", content);
                 if (message.IsSuccessStatusCode)
                 {
@@ -44,6 +45,58 @@ namespace QuizChallenge.WebUI.Controllers
             {
                 return View();
             }
+        }
+
+
+        public async Task<IActionResult> UpdateQuiz(int Id)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage message = await client.GetAsync("https://localhost:7073/api/Quiz/" + Id);
+            if (message.IsSuccessStatusCode)
+            {
+                var jsonQuiz = await message.Content.ReadAsStringAsync();
+                Quiz quiz = JsonConvert.DeserializeObject<Quiz>(jsonQuiz);
+                return View(quiz); 
+
+            }
+            else
+            return RedirectToAction("CreateQuiz");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateQuiz(Quiz quiz)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpClient client = new HttpClient();
+                var jsonQuiz = JsonConvert.SerializeObject(quiz);
+                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8,"application/json");
+                HttpResponseMessage message = await client.PutAsync("https://localhost:7073/api/Quiz", content);
+
+                if (message.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(quiz);
+                }
+            }
+            else
+                return View(quiz);
+        }
+
+
+        public async Task<IActionResult> DeleteQuiz(int Id)
+        {
+            HttpClient client = new HttpClient();
+            HttpResponseMessage message = await client.DeleteAsync("https://localhost:7073/api/Quiz/" + Id);
+            if (message.IsSuccessStatusCode)
+
+                return RedirectToAction("Index");
+            else
+                return View();
         }
     }
 }

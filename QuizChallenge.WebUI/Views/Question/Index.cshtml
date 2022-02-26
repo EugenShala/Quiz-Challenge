@@ -1,0 +1,47 @@
+﻿@using QuizChallenge.WebUI.Models.View_Models
+@model List<Question>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Question <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <a asp-action="CreateQuestion" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New Question</a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                       <th>Quiz ID</th>
+                        <th>Title</th>
+                        <th>Correct Answer</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                       @foreach(var question in Model)
+                            {
+                           <tr>
+                          <th scope="row">@question.Id</th>
+                          <td>@question.QuizId</td>
+                          <td>@question.Text</td>
+                          <td>@question.CorrectAnswerId</td>
+                          <td>
+                              <a asp-action="UpdateQuiz" asp-route-id="@question.Id">Edit </a>  ||
+                              <a asp-action="DeleteQuiz" asp-route-id="@question.Id"> Delete</a> ||
+                              <a asp-action="DetailsQuiz" asp-route-id="@question.Id"> Details</a>
+                          </td>
+                        </tr>
+                            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+

@@ -7,81 +7,86 @@ namespace QuizChallenge.WebUI.Controllers
 {
     public class AnswerController : Controller
     {
-        public async Task<IActionResult> Index()
+        Uri baseAddress = new Uri("https://localhost:7073/api");
+        HttpClient client;
+
+        public AnswerController()
         {
-            List<Answer> listAnswers = new List<Answer>();
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("https://localhost:7073/api/Answer");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var readstring = await response.Content.ReadAsStringAsync();
-                listAnswers = JsonConvert.DeserializeObject<List<Answer>>(readstring);
-                return View(listAnswers);
-            }
-
-            return View(listAnswers);
+            client = new HttpClient();
+            client.BaseAddress = baseAddress;
         }
 
 
+        public async Task<IActionResult> Index()
+        {
+            List<Answer> listAnswer = new List<Answer>();
+            HttpResponseMessage response = await client.GetAsync(client.BaseAddress + "/Answer");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string readstring = await response.Content.ReadAsStringAsync();
+                listAnswer = JsonConvert.DeserializeObject<List<Answer>>(readstring);
+            }
+
+            return View(listAnswer);
+        }
+
+
+
+        public IActionResult CreateAnswer()
+        {
+            Answer answer = new Answer();
+            return View(answer);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> CreateAnswer(Answer answer)
         {
             if (!ModelState.IsValid)
             {
-                HttpClient client = new HttpClient();
-                var jsonQuiz = JsonConvert.SerializeObject(answer);
-                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8, "application/json");
-                HttpResponseMessage message = await client.PostAsync("https://localhost:7073/api/Answer", content);
+                string jsonAnswer = JsonConvert.SerializeObject(answer);
+                StringContent content = new StringContent(jsonAnswer, Encoding.UTF8, "application/json");
+                HttpResponseMessage message = await client.PostAsync(client.BaseAddress + "/Answer", content);
                 if (message.IsSuccessStatusCode)
                 {
                     return RedirectPermanent("Index");
                 }
-                else
-                    ModelState.AddModelError("Error", "There is an API error");
-                return View(answer);
             }
-            else
-            {
-                return View();
-            }
+            return View();
+
         }
 
 
         public async Task<IActionResult> UpdateAnswer(int Id)
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage message = await client.GetAsync("https://localhost:7073/api/Answer/" + Id);
+
+            Answer answerModel = new Answer();
+
+            HttpResponseMessage message = await client.GetAsync(client.BaseAddress + "/Answer/" + Id);
             if (message.IsSuccessStatusCode)
             {
-                var jsonAnswer = await message.Content.ReadAsStringAsync();
-                Answer answer = JsonConvert.DeserializeObject<Answer>(jsonAnswer);
-                return View(answer);
+                string jsonAnswer = await message.Content.ReadAsStringAsync();
+                answerModel = JsonConvert.DeserializeObject<Answer>(jsonAnswer);
 
             }
-            else
-                return RedirectToAction("CreateAnswer");
+            return View(answerModel);
 
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateAnswer(Answer answer)
         {
-            if (!ModelState.IsValid)
-            {
-                HttpClient client = new HttpClient();
-                var jsonQuiz = JsonConvert.SerializeObject(answer);
-                StringContent content = new StringContent(jsonQuiz, Encoding.UTF8, "application/json");
-                HttpResponseMessage message = await client.PutAsync("https://localhost:7073/api/Answer", content);  //https://localhost:7073/api/Answer
+            string jsonAnswer = JsonConvert.SerializeObject(answer);
+            StringContent content = new StringContent(jsonAnswer, Encoding.UTF8, "application/json");
 
-                if (message.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                    return View(answer);
+            HttpResponseMessage message = await client.PutAsync(client.BaseAddress + "/Answer/" + answer.Id, content);
+
+            if (message.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
             }
-            else
-                return View(answer);
+
+            return View(answer);
         }
 
 
@@ -89,8 +94,7 @@ namespace QuizChallenge.WebUI.Controllers
 
         public async Task<IActionResult> DeleteAnswer(int Id)
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage message = await client.DeleteAsync("https://localhost:7073/api/Answer/" + Id);
+            HttpResponseMessage message = await client.DeleteAsync(client.BaseAddress + "/Answer/" + Id);
             if (message.IsSuccessStatusCode)
 
                 return RedirectToAction("Index");
